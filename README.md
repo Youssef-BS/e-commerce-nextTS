@@ -21,15 +21,14 @@ This project is a modern, full-featured e-commerce platform built with Next.js a
 - **React:** For building interactive UIs.
 - **Styled Components / Tailwind CSS:** Modular and maintainable styling.
 - **API Routes:** Built-in Next.js API for backend endpoints.
-- **Database:** (e.g., MongoDB, PostgreSQL, or your choice) for storing products, users, and orders.
-- **Authentication:** JWT or NextAuth.js for secure user sessions.
+- **Database:** summy data for now .
+- **Authentication:** NextAuth.js for secure user sessions.
 
 ## Getting Started
 
 1. Clone the repository.
 2. Install dependencies with `npm install` or `yarn`.
-3. Configure environment variables (see `.env.example`).
-4. Run `npm run dev` to start the development server.
+3. Run `npm run dev` to start the development server.
 
 ## Contribution
 
@@ -38,3 +37,4 @@ Contributions are welcome! Please open issues or submit pull requests for improv
 ---
 
 This project lays the foundation for a scalable and customizable online store, ready for real-world business needs.
+
