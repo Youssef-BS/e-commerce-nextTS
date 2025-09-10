@@ -7,7 +7,6 @@ import {
   ShoppingBasket ,
   Hand , 
   Venus
-
  } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
@@ -63,12 +62,10 @@ const Categories = () => {
   const pathName = usePathname();
   const selectedCategoty = searchParams.get("category");
 
-  console.log(selectedCategoty)
-
   const handleChange = (value : string | null) => {
     const params = new URLSearchParams(searchParams);
     params.set("category" , value || "all")
-     router.push(`${pathName}?${params.toString()} `, {scroll : false})
+    router.push(`${pathName}?${params.toString()} `, {scroll : false})
   }
 
   return (
