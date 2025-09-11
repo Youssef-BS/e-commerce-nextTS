@@ -3,9 +3,10 @@
 import PaymentForm from "@/components/PaymentForm"
 import ShippingForm from "@/components/ShippingForm"
 import { CartItemsType } from "@/types"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Trash2 } from "lucide-react"
 import { useSearchParams , useRouter, usePathname } from "next/navigation"
 import { useState } from "react"
+import Image from "next/image"
 
 
 
@@ -115,7 +116,28 @@ const CartPage = () => {
        </div>
        <div className="w-full flex flex-col lg:flex-row gap-16">
         <div className="w-full lg:w-7/12 shadow-lg border-1 border-gray-100 p-8 rounded-lg flex flex-col gap-8">
-        {activateStep === 1 ? ("products") : activateStep === 2 ? (<ShippingForm/>) : activateStep === 3 && shippingForm ? <PaymentForm /> : <p className="text-sm text-gray-500">Please fill the shipping form</p>}
+        {activateStep === 1 ? (
+          cartItems.map(item=> (
+            <div className="flex items-center justify-between " key={item.id}>
+            <div className="flex gap-8 items-center aspect-[3/1]">
+              <div className="relative w-32 h-32 overflow-hidden rounded-sm">
+                 <Image src={item.images[item.selectedColor]} alt={item.name} className="p-1 object-contain" fill/>
+              </div>
+              <div className="flex flex-col gap-1 align-center justify-between">
+                <h3 className="text-sm font-medium">{item.name}</h3>
+                <p className="text-sm text-gray-500">Size: {item.selectedSize.toUpperCase()}</p>
+                <p className="text-sm text-gray-500">Color: {item.selectedColor.charAt(0).toUpperCase() + item.selectedColor.slice(1)}</p>
+                <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
+                <p className="text-s font-medium text-gray-800 mt-2">${(item.price * item.quantity).toFixed(2)}</p>
+              </div>
+             
+            </div>
+            <button className="flex items-center justify-center text-red-600 bg-red-100 p-2 rounded-full cursor-pointer hover:bg-red-200 transition-all duration-300">
+              <Trash2 className="w-4 h-4"/>
+            </button>
+            </div>
+          ))
+        ) : activateStep === 2 ? (<ShippingForm/>) : activateStep === 3 && shippingForm ? <PaymentForm /> : <p className="text-sm text-gray-500">Please fill the shipping form</p>}
         </div>
         <div className="w-full lg:w-5/12 shadow-lg border-1 border-gray-100 p-8 rounded-lg flex flex-col gap-8">
         <h2 className="font-semibold">Cart Details</h2>
@@ -141,7 +163,7 @@ const CartPage = () => {
           </div>
         </div>
         {activateStep === 1 && (
-        <button onClick={()=>handleChange("2")} className="w-full bg-gray-800 hover:bg-gray-900 transition-all duration-300 text-white p-2 rounded-lg cursor-pointer flex items-center justify-center gap-2">Continue 
+        <button onClick={()=>handleChange("2")} className="w-full bg-gray-800 hover:bg-gray-900 transition-all duration-300 text-white p-2 rounded-lg cursor-pointer flex items-center justify-center gap-2 h-max">Continue 
           <ArrowRight  className="w-3 h-3"/>
         </button>
         )}
