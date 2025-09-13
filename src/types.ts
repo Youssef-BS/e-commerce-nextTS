@@ -1,3 +1,7 @@
+import { FieldError , Path, FieldValues, UseFormRegister } from "react-hook-form";
+import {z} from "zod" ;
+
+
 export type ProductType = {
     id : string | number;
     name : string ;
@@ -19,3 +23,38 @@ export type CartItemType = ProductType & {
 }
 
 export type CartItemsType = CartItemType[] ;
+
+
+export const ShippingFormSchema = z.object({
+    name : z.string().min(1 ,"Name is required") ,
+    email : z.email().min(1,"Email is required") ,
+    phone : z.string()
+    .min(8 ,"Phone number must be at least 8 characters").
+    max(8 , "Phone number must be at most 8 characters").regex(/^\d+$/ , "Phone number must contain only numbers") ,
+    address : z.string().min(1 , "Address is required") ,
+    city : z.string().min(1 , "City is required") ,
+}) ; 
+
+
+export type ShippingFormInputs = z.infer<typeof ShippingFormSchema> ;
+
+
+export const paymentFormSchema = z.object({
+    cardHolder : z.string().min(1 ,"Card holder is required") ,
+    cardNumber : z.email().min(16,"Card Number is required").max(16 , "Card Number is required") ,
+    expirationDate : z.string().regex(/^(0[1-9]|1[0-2])\/?([0-9]{2})$/ , "Experation date must be in MM/YY format" ) ,
+    cvv : z.string().min(3 , "CVV is required") ,
+    city : z.string().min(1 , "City is required")
+}) ; 
+
+
+export type PaymentFormInputs = z.infer<typeof paymentFormSchema >  ; 
+
+export type InputsProps<T extends FieldValues> = {
+    label : string ;
+    name : Path<T>  ;
+    type : string ; 
+    placeholder ?: string ;
+    register : UseFormRegister<T> ;
+    error ?: FieldError;
+}

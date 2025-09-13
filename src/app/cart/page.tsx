@@ -137,7 +137,7 @@ const CartPage = () => {
             </button>
             </div>
           ))
-        ) : activateStep === 2 ? (<ShippingForm/>) : activateStep === 3 && shippingForm ? <PaymentForm /> : <p className="text-sm text-gray-500">Please fill the shipping form</p>}
+        ) : activateStep === 2 ? (<ShippingForm setShippingForm={setShippingForm}/>) : activateStep === 3 && shippingForm ? <PaymentForm /> : <p className="text-sm text-gray-500">Please fill the shipping form</p>}
         </div>
         <div className="w-full lg:w-5/12 shadow-lg border-1 border-gray-100 p-8 rounded-lg flex flex-col gap-8">
         <h2 className="font-semibold">Cart Details</h2>
