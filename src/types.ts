@@ -58,3 +58,13 @@ export type InputsProps<T extends FieldValues> = {
     register : UseFormRegister<T> ;
     error ?: FieldError;
 }
+
+export type CartStoreStateType= {
+    cart : CartItemsType ;
+}
+
+export type CartStoreActionsType = {
+    addToCart : (product : CartItemType) => void ;
+    removeFromCart : (product : CartItemType) => void ;
+    clearCart : () => void ;
+}

@@ -4,8 +4,11 @@ import  Link  from 'next/link'
 import Image from 'next/image'
 import { ShoppingCart } from 'lucide-react'
 import { useState } from 'react'
+import useCartStore from '@/stores/cartStore'
 
 const ProductCard = ({product} : {product:ProductType}) => {
+
+  const {addToCart} = useCartStore()
 
   const [productTypes , setProductTypes] = useState({
     size : product.sizes[0],
@@ -18,6 +21,16 @@ const ProductCard = ({product} : {product:ProductType}) => {
       ...prev , 
       [type] : value
     }))
+  }
+
+
+  const handleAddToCart = () => {
+    addToCart({
+      ...product , 
+      quantity : 1 , 
+      selectedSize : productTypes.size , 
+      selectedColor : productTypes.color ,
+    })
   }
 
   return (
@@ -70,7 +83,7 @@ const ProductCard = ({product} : {product:ProductType}) => {
         <div className='flex items-center justify-between'>
 
           <p className='font-medium'>${product.price.toFixed(2)}</p>
-          <button className='ring-1 ring-gray-200 shadow-lg rounded-md px-2 py-1 text-sm cursor-pointer hover:text-white hover:bg-black transition-all duration-300 flex items-center gap-2'>
+          <button onClick={handleAddToCart} className='ring-1 ring-gray-200 shadow-lg rounded-md px-2 py-1 text-sm cursor-pointer hover:text-white hover:bg-black transition-all duration-300 flex items-center gap-2'>
             <ShoppingCart className='w-4 h-4'/>
             Add to Cart
             </button>
