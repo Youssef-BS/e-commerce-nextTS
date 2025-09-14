@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { ShoppingCart } from 'lucide-react'
 import { useState } from 'react'
 import useCartStore from '@/stores/cartStore'
+import { showToast } from 'nextjs-toast-notify'
 
 const ProductCard = ({product} : {product:ProductType}) => {
 
@@ -30,6 +31,12 @@ const ProductCard = ({product} : {product:ProductType}) => {
       quantity : 1 , 
       selectedSize : productTypes.size , 
       selectedColor : productTypes.color ,
+    })
+    showToast.success("Product Added to Cart successfully." , {
+      position : "bottom-right" ,
+      duration : 3000 ,
+      sound : true , 
+      transition : "fadeIn"
     })
   }
 
@@ -89,8 +96,7 @@ const ProductCard = ({product} : {product:ProductType}) => {
             </button>
 
         </div>
-
-      </div>      
+      </div>  
     </div>
   )
 }
