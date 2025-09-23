@@ -6,6 +6,7 @@ const useCartStore = create<CartStoreActionsType & CartStoreStateType>()(
   persist(
     (set) => ({
       cart: [],
+      hasHybraded : false ,
       addToCart: (product) => set((state) => 
         {
            const existingIndex = state.cart.findIndex(p=>
@@ -13,9 +14,9 @@ const useCartStore = create<CartStoreActionsType & CartStoreStateType>()(
             p.selectedSize ==product.selectedSize &&
             p.selectedColor === product.selectedColor
            )
-           if (existingIndex ! == -1) {
+           if (existingIndex !== -1) {
             const updatedCart = [...state.cart]
-            updatedCart[existingIndex].quantity += product.quantity ||1
+            updatedCart[existingIndex].quantity += product.quantity || 1
             return {cart : updatedCart}
            }
            return {
@@ -26,12 +27,22 @@ const useCartStore = create<CartStoreActionsType & CartStoreStateType>()(
         }
       ),
       removeFromCart: (product) =>
-      set((state) => ({ cart: state.cart.filter((p) => p.id !== product.id) })),
+      set((state) => ({ cart: state.cart.filter((p) => !(
+      p.id === product.id
+      && p.selectedSize === product.selectedSize
+      && p.selectedColor === product.selectedColor 
+    ) 
+      ) })),
       clearCart: () => set(() => ({ cart: [] })),
     }),
     {
       name: "cart",
       storage: createJSONStorage(() => localStorage),
+      onRehydrateStorage: () => (state) => {
+        if(state){
+            state.hasHybraded = true ;
+        }      
+      }
     }
   )
 );

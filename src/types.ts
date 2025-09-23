@@ -61,6 +61,7 @@ export type InputsProps<T extends FieldValues> = {
 
 export type CartStoreStateType= {
     cart : CartItemsType ;
+    hasHybraded : boolean ;
 }
 
 export type CartStoreActionsType = {
