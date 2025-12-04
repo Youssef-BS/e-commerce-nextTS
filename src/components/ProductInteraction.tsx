@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import { ProductType } from '@/types'
-import { Minus, Plus } from 'lucide-react';
+import { Minus, Plus, ShoppingCart } from 'lucide-react';
 import {useRouter , usePathname, useSearchParams } from 'next/navigation';
 
 import React from 'react'
 
-const ProductInteraction = ({product , selectedSize , selectedColor} : {product : ProductType ; selectedSize : string ; slectedColor:string}) => {
+const ProductInteraction = ({product , selectedSize , selectedColor} : {product : ProductType ; selectedSize : string ; selectedColor:string}) => {
 
 
     const router = useRouter() ;
@@ -70,7 +70,7 @@ const ProductInteraction = ({product , selectedSize , selectedColor} : {product 
       <div className='flex flex-col gap-2 text-sm'>
         <span className='text-gray-500'>Quantity</span>
         <div className='flex items-center gap-2'>
-         <button onClick={()=>handleQuantityChange("")} className='cursor-pointer border-1 border-gray-300 p-1'>
+         <button onClick={()=>handleQuantityChange("decrement")} className='cursor-pointer border-1 border-gray-300 p-1'>
           <Minus className='w-4 h-4'/>
          </button>
           <span>{quantity}</span>
@@ -79,6 +79,14 @@ const ProductInteraction = ({product , selectedSize , selectedColor} : {product 
          </button>
         </div>
       </div>
+      <button>
+        <Plus />
+        Add to Cart
+      </button>
+      <button>
+        <ShoppingCart />
+        Buy this Item
+      </button>
     </div>
   )
 }
