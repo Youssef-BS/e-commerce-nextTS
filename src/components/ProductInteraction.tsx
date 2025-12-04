@@ -1,19 +1,33 @@
 "use client"
 
+import { useState } from 'react';
 import { ProductType } from '@/types'
-import {useRouter , usePathname } from 'next/navigation';
+import { Minus, Plus } from 'lucide-react';
+import {useRouter , usePathname, useSearchParams } from 'next/navigation';
 
 import React from 'react'
 
-const ProductInteraction = ({product , selectedSize , slectedColor} : {product : ProductType ; selectedSize : string ; slectedColor:string}) => {
+const ProductInteraction = ({product , selectedSize , selectedColor} : {product : ProductType ; selectedSize : string ; slectedColor:string}) => {
 
 
     const router = useRouter() ;
     const pathName = usePathname() ;
+    const searchParams = useSearchParams()
+    const [quantity , setQuantity] = useState(1);
 
 
     const handleTypeChange = (type : string , value : string)=> {
+       const params = new URLSearchParams(searchParams.toString());
+       params.set(type , value) ; 
+       router.push(`${pathName}?${params.toString()}` , {scroll : false});
+    }
 
+    const handleQuantityChange = (action : "increment" | "decrement") => {
+      if(action === "increment") {
+        setQuantity(prev => prev + 1);
+      } else {
+        setQuantity(prev => (prev > 1 ? prev - 1 : 1));
+      }
     }
 
   return (
@@ -33,8 +47,38 @@ const ProductInteraction = ({product , selectedSize , slectedColor} : {product :
         </div>
 
       </div>
-      <div className='flex flex-col gap-2 text-sm'></div>
-      <div className='flex flex-col gap-2 text-sm'></div>
+      <div className='flex flex-col gap-2 text-sm'>
+        <span className='text-gray-500'>Color</span>
+        <div className='flex items-center gap-2'>
+        {
+          product.colors.map(color => (
+             <div style={{backgroundColor : color}} className={`border-1 cursor-pointer 
+              ${selectedColor === color ? "border-gray-300" : "border-white"} transition-all duration-300`}
+             key={color}
+             onClick={()=>handleTypeChange("color" , color)}
+             >
+              <div 
+              className={`w-6 h-6`}
+              style={{backgroundColor : color}}
+              />
+
+             </div>
+          ))
+        }
+        </div>
+      </div>
+      <div className='flex flex-col gap-2 text-sm'>
+        <span className='text-gray-500'>Quantity</span>
+        <div className='flex items-center gap-2'>
+         <button onClick={()=>handleQuantityChange("")} className='cursor-pointer border-1 border-gray-300 p-1'>
+          <Minus className='w-4 h-4'/>
+         </button>
+          <span>{quantity}</span>
+         <button onClick={()=>handleQuantityChange("increment")}  className='cursor-pointer border-1 border-gray-300 p-1'>
+          <Plus className='w-4 h-4'/>
+         </button>
+        </div>
+      </div>
     </div>
   )
 }
