@@ -6,6 +6,8 @@ import { Minus, Plus, ShoppingCart } from 'lucide-react';
 import {useRouter , usePathname, useSearchParams } from 'next/navigation';
 
 import React from 'react'
+import useCartStore from '@/stores/cartStore';
+import { showToast } from 'nextjs-toast-notify';
 
 const ProductInteraction = ({product , selectedSize , selectedColor} : {product : ProductType ; selectedSize : string ; selectedColor:string}) => {
 
@@ -14,7 +16,7 @@ const ProductInteraction = ({product , selectedSize , selectedColor} : {product 
     const pathName = usePathname() ;
     const searchParams = useSearchParams()
     const [quantity , setQuantity] = useState(1);
-
+    const {addToCart} = useCartStore()
 
     const handleTypeChange = (type : string , value : string)=> {
        const params = new URLSearchParams(searchParams.toString());
@@ -28,6 +30,21 @@ const ProductInteraction = ({product , selectedSize , selectedColor} : {product 
       } else {
         setQuantity(prev => (prev > 1 ? prev - 1 : 1));
       }
+    }
+
+    const handleAddToCart =() => {
+      addToCart({
+        ...product , 
+        quantity ,
+        selectedSize ,
+        selectedColor
+      })
+      showToast.success("Product Added to Cart successfully." , {
+      position : "bottom-right" ,
+      duration : 3000 ,
+      sound : true , 
+      transition : "fadeIn"
+    })
     }
 
   return (
@@ -79,11 +96,11 @@ const ProductInteraction = ({product , selectedSize , selectedColor} : {product 
          </button>
         </div>
       </div>
-      <button>
+      <button onClick={handleAddToCart} className='bg-gray-800 text-white px-4 py-2 rounded-md shadow-lg flex items-center justify-center gap-2 cursor-pointer text-sm font-medium'>
         <Plus />
         Add to Cart
       </button>
-      <button>
+      <button className='ring-1 ring-gray-400 bg-white text-gray-800 px-4 py-2 rounded-md shadow-lg flex items-center justify-center gap-2 cursor-pointer text-sm font-medium'>
         <ShoppingCart />
         Buy this Item
       </button>
