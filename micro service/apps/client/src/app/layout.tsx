@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ysfshop E-commerce",
-  description: "Trendy and Stylish E-commerce Store",
+  title: "Trendlama - Best Clothes",
+  description: "Trendlama is the best place to find the best clothes",
 };
 
 export default function RootLayout({
@@ -33,7 +34,8 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Footer />
-          </div>
+        </div>
+        <ToastContainer position="bottom-right" />
       </body>
     </html>
   );

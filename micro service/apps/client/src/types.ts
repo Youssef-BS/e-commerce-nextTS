@@ -1,71 +1,64 @@
-import { FieldError , Path, FieldValues, UseFormRegister } from "react-hook-form";
-import {z} from "zod" ;
-
+import { z } from "zod";
 
 export type ProductType = {
-    id : string | number;
-    name : string ;
-    shortDescription : string ;
-    description : string ;
-    price : number ;
-    sizes : string[];
-    colors : string[] ;
-    images : Record<string, string>;
+  id: string | number;
+  name: string;
+  shortDescription: string;
+  description: string;
+  price: number;
+  sizes: [string, ...string[]];
+  colors: [string ,...string[]];
+  images: Record<string, string>;
+};
 
-}
-
-export type ProductsType = ProductType[] ;
+export type ProductsType = ProductType[];
 
 export type CartItemType = ProductType & {
-    quantity : number ;
-    selectedSize : string ;
-    selectedColor : string ;
-}
+  quantity: number;
+  selectedSize: string;
+  selectedColor: string;
+};
 
-export type CartItemsType = CartItemType[] ;
+export type CartItemsType = CartItemType[];
 
+export const shippingFormSchema = z.object({
+  name: z.string().min(1, "Name is required!"),
+  email: z.string().regex(/^[^@\s]+@[^@\s]+\.[^@\s]+$/ , "Email not valid").min(1, "Email is required!"),
+  phone: z
+    .string()
+    .min(7, "Phone number must be between 7 and 10 digits!")
+    .max(10, "Phone number must be between 7 and 10 digits!")
+    .regex(/^\d+$/, "Phone number must contain only numbers!"),
+  address: z.string().min(1, "Address is required!"),
+  city: z.string().min(1, "City is required!"),
+});
 
-export const ShippingFormSchema = z.object({
-    name : z.string().min(1 ,"Name is required") ,
-    email : z.email().min(1,"Email is required") ,
-    phone : z.string()
-    .min(8 ,"Phone number must be at least 8 characters").
-    max(8 , "Phone number must be at most 8 characters").regex(/^\d+$/ , "Phone number must contain only numbers") ,
-    address : z.string().min(1 , "Address is required") ,
-    city : z.string().min(1 , "City is required") ,
-}) ; 
-
-
-export type ShippingFormInputs = z.infer<typeof ShippingFormSchema> ;
-
+export type ShippingFormInputs = z.infer<typeof shippingFormSchema>;
 
 export const paymentFormSchema = z.object({
-    cardHolder : z.string().min(1 ,"Card holder is required") ,
-    cardNumber : z.email().min(16,"Card Number is required").max(16 , "Card Number is required") ,
-    expirationDate : z.string().regex(/^(0[1-9]|1[0-2])\/?([0-9]{2})$/ , "Experation date must be in MM/YY format" ) ,
-    cvv : z.string().min(3 , "CVV is required") ,
-    city : z.string().min(1 , "City is required")
-}) ; 
+  cardHolder: z.string().min(1, "Card holder is required!"),
+  cardNumber: z
+    .string()
+    .min(16, "Card Number is required!")
+    .max(16, "Card Number is required!"),
+  expirationDate: z
+    .string()
+    .regex(
+      /^(0[1-9]|1[0-2])\/\d{2}$/,
+      "Expiration date must be in MM/YY format!"
+    ),
+  cvv: z.string().min(3, "CVV is required!").max(3, "CVV is required!"),
+});
 
+export type PaymentFormInputs = z.infer<typeof paymentFormSchema>;
 
-export type PaymentFormInputs = z.infer<typeof paymentFormSchema >  ; 
-
-export type InputsProps<T extends FieldValues> = {
-    label : string ;
-    name : Path<T>  ;
-    type : string ; 
-    placeholder ?: string ;
-    register : UseFormRegister<T> ;
-    error ?: FieldError;
-}
-
-export type CartStoreStateType= {
-    cart : CartItemsType ;
-    hasHybraded : boolean ;
-}
+export type CartStoreStateType = {
+  cart: CartItemsType;
+  hasHydrated: boolean;
+};
 
 export type CartStoreActionsType = {
-    addToCart : (product : CartItemType) => void ;
-    removeFromCart : (product : CartItemType) => void ;
-    clearCart : () => void ;
-}
+  addToCart: (product: CartItemType) => void;
+  removeFromCart: (product: CartItemType) => void;
+  clearCart: () => void;
+};
