@@ -7,8 +7,12 @@ app.use(cors({
     credentials: true
 }))
 
-app.get('/', (req : Request, res : Response) => {
-    res.send('Hello from Product Service') ;
+app.get('/health', (req : Request, res : Response) => {
+    return res.status(200).json({
+    status : "ok" , 
+    uptime : process.uptime() , 
+    timestamp : Date.now()
+  })
 })
 
 app.listen(8000 , ()=> {
