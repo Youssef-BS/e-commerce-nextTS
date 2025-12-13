@@ -1,13 +1,19 @@
-import express from 'express' ; 
-import cors from 'cors' ;
+import Fastify from 'fastify';
 
-const app = express() ; 
+const fastify = Fastify() ;
 
-app.use(cors({
-    origin : ["http://localhost:3002", "http://localhost:3003"],
-    credentials : true
-}))
-
-app.listen(8001 , ()=> {
-    console.log('Order service is running on port 8001') ;
+fastify.get('/', async (request, reply) => {
+  return reply.send('Hello from Order Service') ;
 })
+
+const start = async () => {
+  try {
+    await fastify.listen({ port: 8001 })
+    console.log('Order service is running on port 8001')
+  } catch (err) {
+    fastify.log.error(err)
+    process.exit(1)
+  }
+}
+
+start()
