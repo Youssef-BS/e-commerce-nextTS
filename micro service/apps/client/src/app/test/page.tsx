@@ -6,15 +6,38 @@ const TestPage = async () => {
     const token = await getToken()
 
     console.log("Token:", token)
-    const res = await fetch('http://localhost:8000/test' , {
+    const resProduct = await fetch('http://localhost:8000/test' , {
         headers : {
             Authorization : `Bearer ${token}`
         }
     });
-    const data = await res.json();
+    const dataProduct = await resProduct.json();
 
 
-    console.log(data)
+    console.log(dataProduct)
+
+
+        const resOrder = await fetch('http://localhost:8001/test' , {
+        headers : {
+            Authorization : `Bearer ${token}`
+        }
+    });
+    const dataOrder = await resOrder.json();
+
+
+    console.log(dataOrder)
+
+    const resPayment = await fetch('http://localhost:8002/test' , {
+        headers : {
+            Authorization : `Bearer ${token}`
+        }
+    });
+    const dataPayment = await resPayment.json();
+
+
+    console.log(dataPayment)
+
+
 
     return (
         <div className="">Test page</div>
