@@ -1,6 +1,13 @@
+import 'dotenv/config';
 import Fastify from 'fastify';
 
+import { clerkPlugin , getAuth , clerkClient } from '@clerk/fastify';
+
 const fastify = Fastify() ;
+fastify.register(clerkPlugin);
+
+
+
 
 fastify.get('/health', async (request, reply) => {
     return reply.status(200).send({
@@ -8,6 +15,16 @@ fastify.get('/health', async (request, reply) => {
     uptime : process.uptime() , 
     timestamp : Date.now()
   })
+})
+
+fastify.get('/test' , async(request , reply)=> {
+try {
+
+  const {isAuthenticated , userId} = getAuth(request)
+
+}catch(error)  {
+  return reply.status(500).send({error : "Internal Server Error"})
+}
 })
 
 const start = async () => {
