@@ -1,6 +1,7 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { clerkMiddleware , getAuth } from '@hono/clerk-auth'
+import { shouldBeUser } from './middleware/authMiddleware.js'
 
 const app = new Hono()
 
@@ -29,25 +30,10 @@ serve({
   }
 }
 
-app.get('/test' , async(c)=> {
-  
-  try {
-    const auth = getAuth(c) ;
-    const userId = auth?.userId ;
-    
-    if(!userId) {
-      return c.json({
-        message : "You are not logged in !"
-      } , 401)
-    }
-        
-
-
-  }catch(error) {
-    return c.json({error : "Internal Server Error"} , 500)
-  }
-  return c.json({
-    message : "Payment service Authenticated"
+app.get('/test' , shouldBeUser , async(c)=> {
+    return c.json({
+    message : "Payment service Authenticated" ,
+    userId : c.get("userId")
   })
 })
 
