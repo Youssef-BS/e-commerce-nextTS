@@ -1,5 +1,4 @@
 "use client"
-
 import React from 'react'
 
 import { UserButton } from '@clerk/nextjs'
@@ -9,13 +8,15 @@ import {useRouter} from 'next/navigation'
 const ProfileButton = () => {
     const router = useRouter()
   return (
-    <div>
-      <UserButton.Action
-       label='See Orders' 
-       labelIcon={<ShoppingBag/>} 
-       onClick={()=>router.push('/orders')}
-       />  
-    </div>
+    <UserButton>
+        <UserButton.MenuItems>
+            <UserButton.Action 
+            label='See orders'
+            labelIcon={<ShoppingBag className='h-4 w-4'/>}
+            onClick={()=> router.push("/orders")}
+            />
+        </UserButton.MenuItems>
+    </UserButton>
   )
 }
 
