@@ -250,6 +250,9 @@ importers:
       '@clerk/express':
         specifier: ^1.7.60
         version: 1.7.60(express@5.2.1)(react-dom@19.1.0(react@19.2.3))(react@19.2.3)
+      '@repo/product-db':
+        specifier: workspace:*
+        version: link:../../packages/product-db
       cors:
         specifier: ^2.8.5
         version: 2.8.5
@@ -310,10 +313,14 @@ importers:
         version: 8.49.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.2)
 
   packages/product-db:
-    devDependencies:
+    dependencies:
       '@prisma/client':
         specifier: ^7.2.0
         version: 7.2.0(prisma@7.2.0(@types/react@19.2.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(typescript@5.9.3)
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
       '@types/node':
         specifier: ^25.0.3
         version: 25.0.3
